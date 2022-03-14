@@ -146,12 +146,12 @@ function errorCheck() {
 
         const webhookData = fs.readFileSync(".\\plugins\\webhooks\\MCWebhooks.json");
         console.log("successfully read file")
-        console.log((JSON.stringify(JSON.parse(webhookData))))
+            //console.log((JSON.stringify(JSON.parse(webhookData))))
         try {
             //json parse
             webhookURL = JSON.parse(webhookData).webhookURL;
             console.log("successfully read URL")
-            console.log(webhookURL)
+                //console.log(webhookURL)
             try {
                 //url check
                 console.log("checking url validity")
@@ -177,6 +177,7 @@ function errorCheck() {
                         break;
                     default:
                         console.log(error);
+                        console.log("URL error");
                         break;
                 }
 
