@@ -4,7 +4,7 @@ const { WebhookClient, MessageEmbed } = require("discord.js");
 
 function initMCWebhookJSON() {
     var InitJSON = { "statusMessageID": "none", "membersMessageID": "none", "status": "1", "initialized": "true", "webhookURL": "" };
-    fs.writeFileSync("MCWebhooks.json", JSON.stringify(InitJSON, null, 4));
+    fs.writeFileSync(".\\plugins\\webhooks\\MCWebhook.json", JSON.stringify(InitJSON, null, 4));
     console.log("wrote json file")
 
 
@@ -17,14 +17,14 @@ function initialize(members, fileInit) {
     const wc = new WebhookClient({ url: webhookURL });
 
 
-    var webhookData = JSON.parse(fs.readFileSync("MCWebhooks.json"));
+    var webhookData = JSON.parse(fs.readFileSync(".\\plugins\\webhooks\\MCWebhook.json"));
     wc.send({ embeds: [(statusEmbedGenerator({ title: "The server is currently ONLINE", color: "00cc00" }))] }).then(msg => {
         webhookData.statusMessageID = msg.id.toString();
-        fs.writeFileSync("MCWebhooks.json", JSON.stringify(webhookData, null, "  "));
+        fs.writeFileSync(".\\plugins\\webhooks\\MCWebhook.json", JSON.stringify(webhookData, null, "  "));
     });
     wc.send({ embeds: [(statusEmbedGenerator({ title: "Noone's joined yet", color: "212e44" }))] }).then(msg => {
         webhookData.membersMessageID = msg.id.toString();
-        fs.writeFileSync("MCWebhooks.json", JSON.stringify(webhookData, null, "  "));
+        fs.writeFileSync(".\\plugins\\webhooks\\MCWebhook.json", JSON.stringify(webhookData, null, "  "));
         if (members != 0) {
             membersUpdate(members);
         }
@@ -39,10 +39,10 @@ function statusON() {
     console.log("statusOn")
     embed = statusEmbedGenerator({ title: "The server is currently ONLINE", color: "00cc00" })
     const wc = new WebhookClient({ url: webhookURL });
-    var statusMessageID = JSON.parse(fs.readFileSync("MCWebhooks.json")).statusMessageID;
+    var statusMessageID = JSON.parse(fs.readFileSync(".\\plugins\\webhooks\\MCWebhook.json")).statusMessageID;
     wc.editMessage(statusMessageID, { embeds: [embed] });
     embed = statusEmbedGenerator({ title: "Noone's joined yet", color: '212e44' })
-    var membersMessageID = JSON.parse(fs.readFileSync("MCWebhooks.json")).membersMessageID;
+    var membersMessageID = JSON.parse(fs.readFileSync(".\\plugins\\webhooks\\MCWebhook.json")).membersMessageID;
     wc.editMessage(membersMessageID, { embeds: [embed] })
     console.log("statusOnned");
 }
@@ -51,10 +51,10 @@ function statusOFF() {
     console.log("statusOFF");
     embed = statusEmbedGenerator({ title: "The server is currently OFFLINE", color: "cc0000" });
     const wc = new WebhookClient({ url: webhookURL });
-    var statusMessageID = JSON.parse(fs.readFileSync("MCWebhooks.json")).statusMessageID;
+    var statusMessageID = JSON.parse(fs.readFileSync(".\\plugins\\webhooks\\MCWebhook.json")).statusMessageID;
     wc.editMessage(statusMessageID, { embeds: [embed] });
     embed = statusEmbedGenerator({ title: "The server is literally offline", color: 'bc644c' });
-    var membersMessageID = JSON.parse(fs.readFileSync("MCWebhooks.json")).membersMessageID;
+    var membersMessageID = JSON.parse(fs.readFileSync(".\\plugins\\webhooks\\MCWebhook.json")).membersMessageID;
     wc.editMessage(membersMessageID, { embeds: [embed] });
     console.log("statusOffed")
 }
@@ -62,7 +62,7 @@ function statusOFF() {
 
 
 function membersUpdate(members) {
-    if (JSON.parse(fs.readFileSync('MCWebhooks.json')).status == '1') {
+    if (JSON.parse(fs.readFileSync('.\\plugins\\webhooks\\MCWebhook.json')).status == '1') {
         var membersInt = parseInt(members)
         var title
         switch (membersInt) {
@@ -78,7 +78,7 @@ function membersUpdate(members) {
         }
         embed = statusEmbedGenerator({ title: title, color: '4af1ff' })
         const wc = new WebhookClient({ url: webhookURL })
-        var membersMessageID = JSON.parse(fs.readFileSync('MCWebhooks.json'))
+        var membersMessageID = JSON.parse(fs.readFileSync('.\\plugins\\webhooks\\MCWebhook.json'))
             .membersMessageID
         wc.editMessage(membersMessageID, { embeds: [embed] })
     }
@@ -144,7 +144,7 @@ function errorCheck() {
             throw 0;
         }
 
-        const webhookData = fs.readFileSync("MCWebhooks.json");
+        const webhookData = fs.readFileSync(".\\plugins\\webhooks\\MCWebhook.json");
         console.log("successfully read file")
         console.log((JSON.stringify(JSON.parse(webhookData))))
         try {
